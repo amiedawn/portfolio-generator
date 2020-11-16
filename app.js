@@ -124,7 +124,15 @@ Add a New Project
       message: 'Would you like to enter another project?',
       default: false
     }
-  ]);
+  ])
+  .then(projectData => {
+    portfolioData.projects.push(projectData);
+    if (projectData.confirmAddProject) {
+      return promptProject(portfolioData);
+    } else {
+      return portfolioData;
+    }
+  });
 };
  
 
@@ -132,6 +140,7 @@ Add a New Project
 promptUser()
 .then(promptProject)
 .then(portfolioData => {
+  console.log(portfolioData);
   
   const pageHTML = generatePage(portfolioData);
    fs.writeFile('./index.html', pageHTML, err => {
